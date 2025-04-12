@@ -15,14 +15,15 @@ h1 {
 h2 {
   @apply text-xl;
   @apply font-bold;
-  @apply mt-20;
+  @apply mt-40;
   border-bottom: 1px solid #000;
+  padding-top: 40px;
 }
 
 h3 {
   @apply text-2xl;
   @apply font-bold;
-  padding-top: 40px;
+  padding-top: 10px;
 }
 
 h4 {
