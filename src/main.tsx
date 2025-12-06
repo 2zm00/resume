@@ -19,7 +19,11 @@ const router = createBrowserRouter([
     path: "/master",
     element: <Master />,
   }
-])
+],
+ {
+  basename: "/resume",
+ }
+)
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
