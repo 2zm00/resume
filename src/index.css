@@ -7,6 +7,10 @@ body {
   max-width: 800px;
 }
 
+a:visited {
+  color: blue;
+}
+
 h1 {
   @apply text-4xl;
   @apply font-bold;
