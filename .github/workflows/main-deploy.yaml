@@ -1,0 +1,59 @@
+name: resume GitHub Pages Deploy
+
+on:
+  push:
+    # Actions Trigger 브랜치 설정
+    branches: ["main"]
+  workflow_dispatch:
+
+# Deploy 권한 설정
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 동시성 제어 새 커밋시 이전 빌드 취소
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        # package.json - build 스크립트 실행
+        run: yarn build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 기본 빌드 출력 폴더인 dist 지정
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # === 설정 이후 ===
+      # GitHub 저장소 → Settings → Pages 
+      # Source 변경 Deploy from a branch를 GitHub Actions로 변경
+      # vite.config.ts에 base 설정 확인 '/resume/'
